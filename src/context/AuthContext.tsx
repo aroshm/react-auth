@@ -35,6 +35,16 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
 
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
+
   //sign up
   const signUpNewUser = async (
     name: string,
@@ -75,16 +85,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       return { success: false, error };
     }
   };
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-  }, []);
 
   //sign out
   const signOut = async () => {

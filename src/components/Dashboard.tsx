@@ -2,8 +2,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
-  const { session, signOut } = UserAuth();
   const navigate = useNavigate();
+  const { session, signOut } = UserAuth();
 
   const handleSignOut = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -14,16 +14,8 @@ const Dashboard = () => {
       console.log(err);
     }
   };
-  if (session === undefined) {
-    return (
-      <p>
-        Go to <Link to="/signin">Sign in</Link> or{" "}
-        <Link to="/signup">Sign up</Link>
-      </p>
-    );
-  }
 
-  if (session === undefined) {
+  if (!session) {
     return (
       <p>
         Go to <Link to="/signin">Sign in</Link> or{" "}
