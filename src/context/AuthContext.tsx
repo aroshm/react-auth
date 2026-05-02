@@ -11,6 +11,7 @@ import type { Session } from "@supabase/supabase-js";
 type AuthContextType = {
   session: Session | null;
   signUpNewUser: (
+    name: string,
     email: string,
     password: string,
   ) => Promise<{
@@ -35,8 +36,17 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
 
   //sign up
-  const signUpNewUser = async (email: string, password: string) => {
+  const signUpNewUser = async (
+    name: string,
+    email: string,
+    password: string,
+  ) => {
     const { data, error } = await supabase.auth.signUp({
+      options: {
+        data: {
+          full_name: name,
+        },
+      },
       email: email,
       password: password,
     });
@@ -59,7 +69,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         console.error("An error occurred", error);
         return { success: false, error };
       }
-      console.log("Sign in success", data);
       return { success: true, data };
     } catch (error) {
       console.error("An error occurred", error);
