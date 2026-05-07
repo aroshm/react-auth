@@ -32,7 +32,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
       if (result.success) {
         navigate("/dashboard");
       } else {
-        setError("Authentication Failed");
+        setError(String(result.error));
       }
     } catch {
       setError("An error occurred");
@@ -55,25 +55,27 @@ const AuthForm = ({ mode }: AuthFormProps) => {
           {!isSignIn && (
             <input
               type="text"
-              name=""
-              id=""
+              name="name"
+              id="name"
               className="border rounded p-2"
               placeholder="Name"
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
           )}
           <input
             type="email"
-            name=""
-            id=""
+            name="email"
+            id="email"
             className="border rounded p-2"
             placeholder="Email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
-            name=""
-            id=""
+            name="password"
+            id="password"
             className="border rounded p-2"
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
